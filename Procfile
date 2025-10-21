@@ -1,0 +1,1 @@
+web: gunicorn comisiones.wsgi --log-file -
