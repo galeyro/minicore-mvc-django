@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Reglas</h1>
+    <table border="1">
+        <tr>
+            <th>Nombre</th>
+            <th>Monto Mínimo</th>
+            <th>Monto Máximo</th>
+            <th>Porcentaje</th>
+        </tr>
+        {% for regla in reglas %}
+        <tr>
+            <td>{{ regla.nombre }}</td>
+            <td>{{ regla.monto_min }}</td>
+            <td>{{ regla.monto_max }}</td>
+            <td>{{ regla.porcentaje }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/">Volver al inicio</a>
+{% endblock %}
+

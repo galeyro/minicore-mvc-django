@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Bienvenido al Sistema de Comisiones</h2>
+        <p>Gestiona ventas y calcula comisiones de forma sencilla.</p>
+        
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Vendedores</h5>
+                        <p class="card-text">Consulta la lista de vendedores registrados.</p>
+                        <a href="{% url 'listar_vendedores' %}" class="btn btn-primary">Ver Vendedores</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Ventas</h5>
+                        <p class="card-text">Gestiona las ventas y consulta las comisiones.</p>
+                        <a href="{% url 'listar_ventas' %}" class="btn btn-primary">Ver Ventas</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Nueva Venta</h5>
+                        <p class="card-text">Registra una nueva venta en el sistema.</p>
+                        <a href="{% url 'crear_venta' %}" class="btn btn-success">Crear Venta</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
