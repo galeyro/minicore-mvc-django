@@ -210,7 +210,7 @@ Las ventas se gestionan desde la interfaz web:
 ## 👤 Autor
 
 Adaptado por **galeyro**  
-Basado en el proyecto original de Martín Lomas
+Basado en el proyecto original de Martín Lomas: https://github.com/MartLomas/minicore2025.git
 
 ## 📄 Licencia
 
