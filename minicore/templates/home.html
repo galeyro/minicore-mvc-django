@@ -4,7 +4,8 @@
 <div class="row">
     <div class="col-md-12">
         <h2>Bienvenido al Sistema de Comisiones</h2>
-        <p>Gestiona ventas y calcula comisiones de forma sencilla.</p>
+        {% if user.is_authenticated %}
+        <p>¡Hola <strong>{{ user.first_name|default:user.username }}</strong>! Gestiona ventas y calcula comisiones de forma sencilla.</p>
         
         <div class="row mt-4">
             <div class="col-md-4">
@@ -35,10 +36,23 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <p>Gestiona ventas y calcula comisiones de forma sencilla.</p>
+        
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">¿Eres nuevo?</h4>
+            <p>Para acceder al sistema de comisiones, debes <strong>iniciar sesión</strong> o <strong>registrarte</strong>.</p>
+            <hr>
+            <p class="mb-0">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-sm me-2">Iniciar Sesión</a>
+                <a href="{% url 'registro' %}" class="btn btn-success btn-sm">Registrarse</a>
+            </p>
+        </div>
+        {% endif %}
     </div>
 </div>
 
-<div style="width: fit-content ;margin: 0 auto; padding-top: 10px;">
+<div style="width: fit-content; margin: 0 auto; padding-top: 10px;">
     <img src="https://media.licdn.com/dms/image/v2/D5612AQHZ9d6tZIO57g/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1716293047201?e=2147483647&v=beta&t=-9tYyrsjPRXpdQdJLFL-sRm_bfcjvs0YHGT3ujuz77Q" alt="Soy un meme feliz"/>
 </div>
 {% endblock %}

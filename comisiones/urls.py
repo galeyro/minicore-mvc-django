@@ -20,6 +20,11 @@ from minicore import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Autenticación
+    path('login/', views.login_view, name='login'),
+    path('registro/', views.registro_view, name='registro'),
+    path('logout/', views.logout_view, name='logout'),
+    # Rutas principales
     path('', views.home, name='home'),
     path('vendedores/', views.listar_vendedores, name='listar_vendedores'),
     path('ventas/', views.listar_ventas, name='listar_ventas'),

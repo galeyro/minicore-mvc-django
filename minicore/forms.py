@@ -15,3 +15,59 @@ class VentaForm(forms.ModelForm):
             'fecha': 'Fecha',
             'monto': 'Monto',
         }
+
+class LoginForm(forms.Form):
+    """Formulario de login de usuarios"""
+    usuario = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Usuario',
+            'autocomplete': 'username'
+        }),
+        label='Usuario'
+    )
+    contraseña = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Contraseña',
+            'autocomplete': 'current-password'
+        }),
+        label='Contraseña'
+    )
+
+class RegistroForm(forms.Form):
+    """Formulario de registro de nuevos usuarios"""
+    usuario = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Usuario',
+            'autocomplete': 'username'
+        }),
+        label='Usuario'
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Correo electrónico',
+            'autocomplete': 'email'
+        }),
+        label='Email'
+    )
+    contraseña = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Contraseña',
+            'autocomplete': 'new-password'
+        }),
+        label='Contraseña'
+    )
+    confirmar_contraseña = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Confirmar contraseña',
+            'autocomplete': 'new-password'
+        }),
+        label='Confirmar contraseña'
+    )
