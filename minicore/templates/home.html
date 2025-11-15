@@ -41,11 +41,11 @@
         
         <div class="alert alert-info" role="alert">
             <h4 class="alert-heading">¿Eres nuevo?</h4>
-            <p>Para acceder al sistema de comisiones, debes <strong>iniciar sesión</strong> o <strong>registrarte</strong>.</p>
+            <p>Para acceder al sistema de comisiones, debes <strong>iniciar sesión con Keycloak SSO</strong>.</p>
             <hr>
             <p class="mb-0">
-                <a href="{% url 'login' %}" class="btn btn-primary btn-sm me-2">Iniciar Sesión</a>
-                <a href="{% url 'registro' %}" class="btn btn-success btn-sm">Registrarse</a>
+                <a href="{% url 'oidc_login' %}" class="btn btn-primary btn-sm me-2">Iniciar Sesión SSO</a>
+                <a href="{% url 'oidc_login' %}" class="btn btn-success btn-sm">Registrarse en Keycloak</a>
             </p>
         </div>
         {% endif %}

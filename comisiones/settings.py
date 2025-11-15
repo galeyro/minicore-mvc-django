@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'minicore',
+    'mozilla_django_oidc',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,34 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Configuración de archivos estáticos
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Configuración OIDC con Keycloak
+OIDC_RP_CLIENT_ID = 'minicore-mvc'
+OIDC_RP_CLIENT_SECRET = 'AoWf3bRGxapZ2QFUEWGxeIuUeqCLR3rh'
+OIDC_RP_SIGN_ALGO = 'RS256'
+
+# URL de callback - usa localhost en lugar de 127.0.0.1
+OIDC_RP_CALLBACK_URL_NAME = 'oidc_callback'
+
+OIDC_OP_AUTHORIZATION_ENDPOINT = 'http://localhost:8080/realms/minicore/protocol/openid-connect/auth'
+OIDC_OP_TOKEN_ENDPOINT = 'http://localhost:8080/realms/minicore/protocol/openid-connect/token'
+OIDC_OP_USER_ENDPOINT = 'http://localhost:8080/realms/minicore/protocol/openid-connect/userinfo'
+OIDC_OP_JWKS_ENDPOINT = 'http://localhost:8080/realms/minicore/protocol/openid-connect/certs'
+OIDC_OP_LOGOUT_ENDPOINT = 'http://localhost:8080/realms/minicore/protocol/openid-connect/logout'
+
+# Configuración adicional de OIDC
+OIDC_AUTH_REQUEST_EXTRA_PARAMS = {'prompt': 'login'}
+OIDC_STORE_ID_TOKEN = True
+OIDC_STORE_ACCESS_TOKEN = True
+OIDC_USE_NONCE = True
+# Importante: configurar el scheme para SSL en producción
+OIDC_OP_DISCOVER = True
+
+AUTHENTICATION_BACKENDS = [
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+LOGIN_URL = 'oidc_login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

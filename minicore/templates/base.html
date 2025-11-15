@@ -37,19 +37,13 @@
                 <li><span class="dropdown-item disabled">{{ user.email }}</span></li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
-                  <form method="post" action="{% url 'logout' %}" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="dropdown-item">Cerrar sesión</button>
-                  </form>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>
                 </li>
               </ul>
             </li>
             {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'registro' %}">Registrarse</a>
+              <a class="nav-link" href="{% url 'oidc_login' %}">Iniciar sesión (SSO)</a>
             </li>
             {% endif %}
           </ul>

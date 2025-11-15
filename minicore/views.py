@@ -1,80 +1,32 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.views.decorators.http import require_http_methods
+from mozilla_django_oidc.views import OIDCAuthenticationRequestView
 from .models import Vendedor, Venta, Reglas
-from .forms import VentaForm, LoginForm, RegistroForm
+from .forms import VentaForm
 
-@require_http_methods(["GET", "POST"])
-def login_view(request):
-    """Vista de login de usuarios"""
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            usuario = form.cleaned_data['usuario']
-            contraseña = form.cleaned_data['contraseña']
-            user = authenticate(request, username=usuario, password=contraseña)
-            if user is not None:
-                login(request, user)
-                messages.success(request, f'¡Bienvenido {user.username}!')
-                return redirect('home')
-            else:
-                messages.error(request, 'Usuario o contraseña incorrectos.')
-    else:
-        form = LoginForm()
-    
-    return render(request, 'login.html', {'form': form})
+def login_redirect(request):
+    """Redirige al login de Keycloak"""
+    from mozilla_django_oidc.views import OIDCAuthenticationRequestView
+    auth_view = OIDCAuthenticationRequestView()
+    auth_view.request = request
+    return auth_view.get(request)
 
-@require_http_methods(["GET", "POST"])
-def registro_view(request):
-    """Vista de registro de nuevos usuarios"""
-    if request.method == 'POST':
-        form = RegistroForm(request.POST)
-        if form.is_valid():
-            usuario = form.cleaned_data['usuario']
-            email = form.cleaned_data['email']
-            contraseña = form.cleaned_data['contraseña']
-            confirmar_contraseña = form.cleaned_data['confirmar_contraseña']
-            
-            if contraseña != confirmar_contraseña:
-                messages.error(request, 'Las contraseñas no coinciden.')
-                return render(request, 'registro.html', {'form': form})
-            
-            if User.objects.filter(username=usuario).exists():
-                messages.error(request, 'El usuario ya existe.')
-                return render(request, 'registro.html', {'form': form})
-            
-            if User.objects.filter(email=email).exists():
-                messages.error(request, 'El email ya está registrado.')
-                return render(request, 'registro.html', {'form': form})
-            
-            user = User.objects.create_user(username=usuario, email=email, password=contraseña)
-            user.save()
-            messages.success(request, 'Registro exitoso. Por favor, inicia sesión.')
-            return redirect('login')
-    else:
-        form = RegistroForm()
-    
-    return render(request, 'registro.html', {'form': form})
-
-@require_http_methods(["POST"])
 def logout_view(request):
-    """Vista de logout de usuarios"""
+    """Cierra sesión en Django y Keycloak"""
     logout(request)
-    messages.success(request, 'Sesión cerrada exitosamente.')
-    return redirect('home')
+    return redirect('/')
 
 def home(request):
     return render(request, 'home.html')
 
-@login_required(login_url='login')
+@login_required(login_url='oidc_login')
 def listar_vendedores(request):
     vendedores = Vendedor.objects.all()
     return render(request, 'vendedor.html', {'vendedores': vendedores})
 
-@login_required(login_url='login')
+@login_required(login_url='oidc_login')
 def listar_ventas(request):
     ventas = Venta.objects.select_related('vendedor').all()
     fecha_inicio = request.GET.get('fecha_inicio')
@@ -101,7 +53,7 @@ def listar_ventas(request):
     }
     return render(request, 'ventas.html', context)
 
-@login_required(login_url='login')
+@login_required(login_url='oidc_login')
 def crear_venta(request):
     if request.method == 'POST':
         form = VentaForm(request.POST)
@@ -114,7 +66,7 @@ def crear_venta(request):
     
     return render(request, 'venta_form.html', {'form': form, 'accion': 'Crear'})
 
-@login_required(login_url='login')
+@login_required(login_url='oidc_login')
 def editar_venta(request, pk):
     venta = get_object_or_404(Venta, pk=pk)
     if request.method == 'POST':
@@ -128,7 +80,7 @@ def editar_venta(request, pk):
     
     return render(request, 'venta_form.html', {'form': form, 'accion': 'Editar'})
 
-@login_required(login_url='login')
+@login_required(login_url='oidc_login')
 def eliminar_venta(request, pk):
     venta = get_object_or_404(Venta, pk=pk)
     if request.method == 'POST':
