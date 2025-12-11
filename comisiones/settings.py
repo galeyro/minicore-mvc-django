@@ -126,18 +126,18 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Configuración OIDC con Keycloak
-OIDC_RP_CLIENT_ID = 'minicore-mvc'
-OIDC_RP_CLIENT_SECRET = 'AoWf3bRGxapZ2QFUEWGxeIuUeqCLR3rh'
+OIDC_RP_CLIENT_ID = os.getenv('OIDC_RP_CLIENT_ID', 'minicore-mvc-django')
+OIDC_RP_CLIENT_SECRET = 'R45zOAIBuDRd5K06ydoN5zLYe9Ap8J5b'
 OIDC_RP_SIGN_ALGO = 'RS256'
 
 # URL de callback - usa localhost en lugar de 127.0.0.1
 OIDC_RP_CALLBACK_URL_NAME = 'oidc_callback'
 
-OIDC_OP_AUTHORIZATION_ENDPOINT = 'http://localhost:8080/realms/minicore/protocol/openid-connect/auth'
-OIDC_OP_TOKEN_ENDPOINT = 'http://localhost:8080/realms/minicore/protocol/openid-connect/token'
-OIDC_OP_USER_ENDPOINT = 'http://localhost:8080/realms/minicore/protocol/openid-connect/userinfo'
-OIDC_OP_JWKS_ENDPOINT = 'http://localhost:8080/realms/minicore/protocol/openid-connect/certs'
-OIDC_OP_LOGOUT_ENDPOINT = 'http://localhost:8080/realms/minicore/protocol/openid-connect/logout'
+OIDC_OP_AUTHORIZATION_ENDPOINT = 'http://localhost:8080/realms/hospital-realm/protocol/openid-connect/auth'
+OIDC_OP_TOKEN_ENDPOINT = 'http://localhost:8080/realms/hospital-realm/protocol/openid-connect/token'
+OIDC_OP_USER_ENDPOINT = 'http://localhost:8080/realms/hospital-realm/protocol/openid-connect/userinfo'
+OIDC_OP_JWKS_ENDPOINT = 'http://localhost:8080/realms/hospital-realm/protocol/openid-connect/certs'
+OIDC_OP_LOGOUT_ENDPOINT = 'http://localhost:8080/realms/hospital-realm/protocol/openid-connect/logout'
 
 # Configuración adicional de OIDC
 OIDC_AUTH_REQUEST_EXTRA_PARAMS = {'prompt': 'login'}
